@@ -1,15 +1,28 @@
 package br.com.victor.health.exams.software.entities;
 
+import javax.persistence.Convert;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import br.com.victor.health.exams.software.entities.converters.GenderConverter;
+import br.com.victor.health.exams.software.entities.enums.Gender;
+
 public class Exam {
 
 	private Integer id;
 	private String procedureName;
-	private String PatientName;
-	private int PatientAge;
+	private String patientName;
+	private int patientAge;
 	private String physicianName;
 	private String physicianCRM;
-
 	private boolean requested;
+	
+	@Convert(converter = GenderConverter.class)
+	private Gender patientGender;
+	
+	@ManyToOne
+	@JoinColumn(name = "healthcareInstitution_id")
+	private HealthcareInstitution healthcareInstitution;
 
 	{
 		requested = false;
@@ -19,11 +32,12 @@ public class Exam {
 	}
 
 	public Exam(Integer id, String procedureName, String patientName, int patientAge, String physicianName,
-			String physicianCRM, boolean requested) {
+			String physicianCRM, boolean requested, Gender patientGender) {
 		this.id = id;
 		this.procedureName = procedureName;
-		PatientName = patientName;
-		PatientAge = patientAge;
+		this.patientName = patientName;
+		this.patientGender = patientGender;
+		this.patientAge = patientAge;
 		this.physicianName = physicianName;
 		this.physicianCRM = physicianCRM;
 		this.requested = requested;
@@ -46,19 +60,19 @@ public class Exam {
 	}
 
 	public String getPatientName() {
-		return PatientName;
+		return patientName;
 	}
 
 	public void setPatientName(String patientName) {
-		PatientName = patientName;
+		this.patientName = patientName;
 	}
 
 	public int getPatientAge() {
-		return PatientAge;
+		return patientAge;
 	}
 
 	public void setPatientAge(int patientAge) {
-		PatientAge = patientAge;
+		this.patientAge = patientAge;
 	}
 
 	public String getPhysicianName() {
@@ -83,6 +97,22 @@ public class Exam {
 
 	public void setRequested(boolean requested) {
 		this.requested = requested;
+	}
+	
+	public Gender getPatientGender() {
+		return patientGender;
+	}
+
+	public void setPatientGender(Gender patientGender) {
+		this.patientGender = patientGender;
+	}
+
+	public HealthcareInstitution getHealthcareInstitution() {
+		return healthcareInstitution;
+	}
+
+	public void setHealthcareInstitution(HealthcareInstitution healthcareInstitution) {
+		this.healthcareInstitution = healthcareInstitution;
 	}
 
 	@Override
