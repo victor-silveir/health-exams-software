@@ -1,14 +1,21 @@
 package br.com.victor.health.exams.software.entities;
 
 import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import br.com.victor.health.exams.software.entities.converters.GenderConverter;
 import br.com.victor.health.exams.software.entities.enums.Gender;
 
+@Entity
 public class Exam {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String procedureName;
 	private String patientName;
