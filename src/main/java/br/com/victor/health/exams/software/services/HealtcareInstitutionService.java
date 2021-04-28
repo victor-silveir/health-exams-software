@@ -27,8 +27,7 @@ public class HealtcareInstitutionService {
 			throw new Error();
 		}
 		
-		return healthcareInstitutionRepository.save(healthcareInstitution);
-		
+		return healthcareInstitutionRepository.save(healthcareInstitution);		
 	}
 
 }
