@@ -1,5 +1,7 @@
 package br.com.victor.health.exams.software.entities;
 
+import java.io.Serializable;
+
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,8 +14,9 @@ import br.com.victor.health.exams.software.entities.converters.GenderConverter;
 import br.com.victor.health.exams.software.entities.enums.Gender;
 
 @Entity
-public class Exam {
-
+public class Exam implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
