@@ -3,9 +3,12 @@ package br.com.victor.health.exams.software.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.victor.health.exams.software.dtos.ExamDto;
+import br.com.victor.health.exams.software.dtos.UpdateExamDto;
 import br.com.victor.health.exams.software.entities.Exam;
 import br.com.victor.health.exams.software.entities.HealthcareInstitution;
 import br.com.victor.health.exams.software.repositories.ExamRepository;
@@ -19,6 +22,9 @@ public class ExamService {
 	@Autowired
 	private HealthcareInstitutionService healthcareInstitutionService;
 
+	@Autowired
+	private ModelMapper modelMapper;
+	
 	public List<Exam> findAllExamsByInstitution(HealthcareInstitution healthcareInstitution) {
 
 		healthcareInstitutionService.findInstitutionById(healthcareInstitution.getId());
@@ -91,6 +97,18 @@ public class ExamService {
 		
 		examRepository.delete(exam);		
 		
+	}
+	
+	public Exam toExam(ExamDto examDto) {
+		return modelMapper.map(examDto, Exam.class);
+	}
+	
+	public Exam toExam(UpdateExamDto examDto) {
+		return modelMapper.map(examDto, Exam.class);
+	}
+	
+	public ExamDto toExamDto(Exam exam) {
+		return modelMapper.map(exam, ExamDto.class);
 	}
 
 }
