@@ -16,7 +16,7 @@ public class HealthcareInstitution implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private String id;
+	private Integer id;
 	private String name;
 	private String cnpj;
 	private int PixeonCoins;
@@ -31,18 +31,18 @@ public class HealthcareInstitution implements Serializable{
 	public HealthcareInstitution() {
 	}
 
-	public HealthcareInstitution(String id, String name, String cnpj) {
+	public HealthcareInstitution(Integer id, String name, String cnpj) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.cnpj = cnpj;
 	}
 
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
