@@ -2,6 +2,8 @@ package br.com.victor.health.exams.software.controllers;
 
 import java.net.URI;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -24,7 +26,7 @@ public class HealthcareInstitutionController {
 	private HealthcareInstitutionService healthcareInstitutionService;
 
 	@PostMapping
-	public ResponseEntity<HealthcareInstitution> post(@RequestBody HealthcareInstitution healthcareInstitution) {
+	public ResponseEntity<HealthcareInstitution> post(@Valid @RequestBody HealthcareInstitution healthcareInstitution) {
 
 		healthcareInstitution = healthcareInstitutionService.saveInstitution(healthcareInstitution);
 
