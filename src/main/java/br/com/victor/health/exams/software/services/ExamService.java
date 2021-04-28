@@ -17,11 +17,11 @@ public class ExamService {
 	private ExamRepository examRepository;
 
 	@Autowired
-	private HealtcareInstitutionService healtcareInstitutionService;
+	private HealthcareInstitutionService healthcareInstitutionService;
 
 	public List<Exam> findAllExamsByInstitution(HealthcareInstitution healthcareInstitution) {
 
-		healtcareInstitutionService.findInstitutionById(healthcareInstitution.getId());
+		healthcareInstitutionService.findInstitutionById(healthcareInstitution.getId());
 
 		return examRepository.findByHealthcareInstitution(healthcareInstitution);
 
@@ -45,7 +45,7 @@ public class ExamService {
 			exam.getHealthcareInstitution().chargePixeonCoins(1);
 			exam.setRequested(true);
 			examRepository.save(exam);
-			healtcareInstitutionService.saveInstitution(exam.getHealthcareInstitution());
+			healthcareInstitutionService.saveInstitution(exam.getHealthcareInstitution());
 		}
 
 		return exam;
@@ -60,7 +60,7 @@ public class ExamService {
 			throw new Error();
 		}
 
-		if (healtcareInstitutionService.findInstitutionById(exam.getHealthcareInstitution().getId()) == null) {
+		if (healthcareInstitutionService.findInstitutionById(exam.getHealthcareInstitution().getId()) == null) {
 			throw new Error();
 		}
 
@@ -70,7 +70,7 @@ public class ExamService {
 
 		exam.setHealthcareInstitution(exam.getHealthcareInstitution());
 		exam.getHealthcareInstitution().chargePixeonCoins(1);
-		healtcareInstitutionService.saveInstitution(exam.getHealthcareInstitution());
+		healthcareInstitutionService.saveInstitution(exam.getHealthcareInstitution());
 
 		return examRepository.save(exam);
 

@@ -9,7 +9,7 @@ import br.com.victor.health.exams.software.entities.HealthcareInstitution;
 import br.com.victor.health.exams.software.repositories.HealthcareInstitutionRepository;
 
 @Service
-public class HealtcareInstitutionService {
+public class HealthcareInstitutionService {
 	
 	@Autowired
 	private HealthcareInstitutionRepository healthcareInstitutionRepository;
