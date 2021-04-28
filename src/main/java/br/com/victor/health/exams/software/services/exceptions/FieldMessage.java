@@ -1,4 +1,4 @@
-package br.com.victor.health.exams.software.exceptions;
+package br.com.victor.health.exams.software.services.exceptions;
 
 import java.io.Serializable;
 

@@ -1,12 +1,10 @@
-package br.com.victor.health.exams.software.exceptions;
+package br.com.victor.health.exams.software.controllers.exceptions;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +12,13 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import br.com.victor.health.exams.software.services.exceptions.NotEnoughtPixeonCoinsException;
+import br.com.victor.health.exams.software.services.exceptions.ObjectAlreadySavedException;
+import br.com.victor.health.exams.software.services.exceptions.ObjectNotFoundException;
+import br.com.victor.health.exams.software.services.exceptions.PermissionDeniedException;
+import br.com.victor.health.exams.software.services.exceptions.StandardError;
+import br.com.victor.health.exams.software.services.exceptions.ValidationError;
 
 @ControllerAdvice
 public class ExceptionsHandler {
@@ -34,6 +39,20 @@ public class ExceptionsHandler {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 	}
 	
+	@ExceptionHandler(NotEnoughtPixeonCoinsException.class)
+	public ResponseEntity<StandardError> notEnoughtPixeonCoins(NotEnoughtPixeonCoinsException e, HttpServletRequest req) {
+		
+		StandardError error = new StandardError(HttpStatus.FORBIDDEN.value(), e.getMessage(), df.format(new Date()));
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+	}
+	
+	@ExceptionHandler(PermissionDeniedException.class)
+	public ResponseEntity<StandardError> permissionDenied(PermissionDeniedException e, HttpServletRequest req) {
+		
+		StandardError error = new StandardError(HttpStatus.FORBIDDEN.value(), e.getMessage(), df.format(new Date()));
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+	}
+	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<StandardError> validation(MethodArgumentNotValidException e, HttpServletRequest req) {
 		
@@ -45,17 +64,5 @@ public class ExceptionsHandler {
 			
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
 	}
-	
-	@ExceptionHandler(ConstraintViolationException.class)
-	public ResponseEntity<StandardError> validation(ConstraintViolationException e, HttpServletRequest req) {
 		
-		ValidationError erro = new ValidationError(HttpStatus.BAD_REQUEST.value(), "Erro de Validação", df.format(new Date()));
-		
-		for (ConstraintViolation<?> error : e.getConstraintViolations()) {
-			erro.addError("telefone", error.getMessage());
-		}
-			
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
-	}
-	
 }

@@ -1,4 +1,4 @@
-package br.com.victor.health.exams.software.exceptions;
+package br.com.victor.health.exams.software.services.exceptions;
 
 public class PermissionDeniedException extends RuntimeException{
 	private static final long serialVersionUID = 1L;
