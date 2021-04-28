@@ -15,7 +15,9 @@ public class HealthcareInstitutionService {
 	private HealthcareInstitutionRepository healthcareInstitutionRepository;
 	
 	public HealthcareInstitution findInstitutionById(Integer id) {
+		
 		Optional<HealthcareInstitution> optionalInstitution = healthcareInstitutionRepository.findById(id);
+		
 		return optionalInstitution.orElseThrow();
 	}
 	

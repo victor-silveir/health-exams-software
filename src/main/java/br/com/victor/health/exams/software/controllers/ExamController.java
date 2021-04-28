@@ -3,6 +3,8 @@ package br.com.victor.health.exams.software.controllers;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -24,11 +26,12 @@ import br.com.victor.health.exams.software.services.ExamService;
 @RestController
 @RequestMapping("/healthcareinstutions")
 public class ExamController {
+	
 	@Autowired
 	private ExamService examService;
 
 	@PostMapping
-	public ResponseEntity<Exam> post(@RequestBody Exam exam) {
+	public ResponseEntity<Exam> post(@Valid @RequestBody Exam exam) {
 
 		exam = examService.saveExam(exam);
 
@@ -44,19 +47,19 @@ public class ExamController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<Exam>> findAll(@RequestBody HealthcareInstitution healthcareInstitution) {
+	public ResponseEntity<List<Exam>> findAll(@Valid @RequestBody HealthcareInstitution healthcareInstitution) {
 		List<Exam> exams = examService.findAllExamsByInstitution(healthcareInstitution);
 		return ResponseEntity.ok().body(exams);
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Exam> putExame(@PathVariable Integer id, @RequestBody Exam exam) {
+	public ResponseEntity<Exam> putExame(@PathVariable Integer id, @Valid @RequestBody Exam exam) {
 		exam = examService.updateExam(exam, id);
 		return ResponseEntity.ok().body(exam);
 	}
 
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Void> deleteExame(@PathVariable Integer id, @RequestBody Exam exam) {
+	public ResponseEntity<Void> deleteExame(@PathVariable Integer id, @Valid @RequestBody Exam exam) {
 		examService.deleteExam(exam, id);
 		return ResponseEntity.noContent().build();
 	}
