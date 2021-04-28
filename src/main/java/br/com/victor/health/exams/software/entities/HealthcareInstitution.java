@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 public class HealthcareInstitution implements Serializable{
@@ -17,7 +18,9 @@ public class HealthcareInstitution implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	@NotEmpty(message = "Institution Name is required.")
 	private String name;
+	@NotEmpty(message = "Institution CNPJ is required.")
 	private String cnpj;
 	private int PixeonCoins;
 	

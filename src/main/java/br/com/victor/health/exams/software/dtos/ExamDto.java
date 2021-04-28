@@ -4,6 +4,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import br.com.victor.health.exams.software.entities.HealthcareInstitution;
+
 public class ExamDto {
 	
 	private Integer id;
@@ -27,11 +29,11 @@ public class ExamDto {
     private String physicianCRM;
 
 	@NotEmpty(message = "Procedure Name is required.")
+	@Size(max = 100, message = "Procedure Name must be at last 100 characters.")
     private String procedureName;
 
 	@NotEmpty(message = "Healthcare Institution ID is required.")
-	@Pattern(regexp="^(0|[1-9][0-9]*)$", message="ID must be a number.")
-    private Integer healthcareInstitutionId;
+    private HealthcareInstitution healthcareInstitution;
 	
 	public Integer getId() {
 		return id;
@@ -89,12 +91,12 @@ public class ExamDto {
 		this.procedureName = procedureName;
 	}
 
-	public Integer getHealthcareInstitutionId() {
-		return healthcareInstitutionId;
+	public HealthcareInstitution getHealthcareInstitution() {
+		return healthcareInstitution;
 	}
 
-	public void setHealthcareInstitutionId(Integer healthcareInstitutionId) {
-		this.healthcareInstitutionId = healthcareInstitutionId;
+	public void setHealthcareInstitution(HealthcareInstitution healthcareInstitution) {
+		this.healthcareInstitution = healthcareInstitution;
 	}
 	
 	

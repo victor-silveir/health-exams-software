@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.victor.health.exams.software.dtos.ExamDto;
+import br.com.victor.health.exams.software.dtos.GetExamDto;
 import br.com.victor.health.exams.software.dtos.UpdateExamDto;
 import br.com.victor.health.exams.software.entities.Exam;
 import br.com.victor.health.exams.software.entities.HealthcareInstitution;
@@ -107,8 +108,8 @@ public class ExamService {
 		return modelMapper.map(examDto, Exam.class);
 	}
 	
-	public ExamDto toExamDto(Exam exam) {
-		return modelMapper.map(exam, ExamDto.class);
+	public GetExamDto toExamDto(Exam exam) {
+		return modelMapper.map(exam, GetExamDto.class);
 	}
 
 }

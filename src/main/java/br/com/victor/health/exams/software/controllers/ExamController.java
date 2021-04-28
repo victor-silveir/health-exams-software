@@ -2,6 +2,7 @@ package br.com.victor.health.exams.software.controllers;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -18,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.com.victor.health.exams.software.dtos.ExamDto;
+import br.com.victor.health.exams.software.dtos.GetExamDto;
+import br.com.victor.health.exams.software.dtos.UpdateExamDto;
 import br.com.victor.health.exams.software.entities.Exam;
 import br.com.victor.health.exams.software.entities.HealthcareInstitution;
 import br.com.victor.health.exams.software.services.ExamService;
@@ -26,13 +30,13 @@ import br.com.victor.health.exams.software.services.ExamService;
 @RestController
 @RequestMapping("/healthcareinstutions")
 public class ExamController {
-	
+
 	@Autowired
 	private ExamService examService;
 
 	@PostMapping
-	public ResponseEntity<Exam> post(@Valid @RequestBody Exam exam) {
-
+	public ResponseEntity<Exam> post(@Valid @RequestBody ExamDto examDto) {
+		Exam exam = examService.toExam(examDto);
 		exam = examService.saveExam(exam);
 
 		URI ExameURI = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(exam.getId())
@@ -41,20 +45,22 @@ public class ExamController {
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Exam> findById(@PathVariable("id") Integer id, @PathVariable("healthcareInstitutionId") Integer healthcareInstitutionId) {
+	public ResponseEntity<Exam> findById(@PathVariable("id") Integer id,
+			@PathVariable("healthcareInstitutionId") Integer healthcareInstitutionId) {
 		Exam Exam = examService.findExamById(id, healthcareInstitutionId);
 		return ResponseEntity.ok().body(Exam);
 	}
-	
+
 	@GetMapping
-	public ResponseEntity<List<Exam>> findAll(@Valid @RequestBody HealthcareInstitution healthcareInstitution) {
-		List<Exam> exams = examService.findAllExamsByInstitution(healthcareInstitution);
+	public ResponseEntity<List<GetExamDto>> findAll(@Valid @RequestBody HealthcareInstitution healthcareInstitution) {
+		List<GetExamDto> exams = examService.findAllExamsByInstitution(healthcareInstitution).stream()
+				.map(examService::toExamDto).collect(Collectors.toList());
 		return ResponseEntity.ok().body(exams);
 	}
-	
+
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Exam> putExame(@PathVariable Integer id, @Valid @RequestBody Exam exam) {
-		exam = examService.updateExam(exam, id);
+	public ResponseEntity<Exam> putExame(@PathVariable Integer id, @Valid @RequestBody UpdateExamDto examDto) {
+		Exam exam = examService.updateExam(examService.toExam(examDto), id);
 		return ResponseEntity.ok().body(exam);
 	}
 
