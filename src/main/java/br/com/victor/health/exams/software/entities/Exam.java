@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.com.victor.health.exams.software.entities.converters.GenderConverter;
 import br.com.victor.health.exams.software.entities.enums.Gender;
 
@@ -30,6 +32,7 @@ public class Exam implements Serializable{
 	@Convert(converter = GenderConverter.class)
 	private Gender patientGender;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "healthcareInstitution_id")
 	private HealthcareInstitution healthcareInstitution;

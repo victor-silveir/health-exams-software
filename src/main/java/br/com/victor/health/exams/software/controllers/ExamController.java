@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -36,17 +37,17 @@ public class ExamController {
 
 	@PostMapping
 	public ResponseEntity<Exam> post(@Valid @RequestBody ExamDto examDto) {
-		Exam exam = examService.toExam(examDto);
-		exam = examService.saveExam(exam);
+		
+		Exam exam = examService.saveExam(examDto);
 
-		URI ExameURI = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(exam.getId())
+		URI ExameURI = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(examDto.getId())
 				.toUri();
 		return ResponseEntity.created(ExameURI).body(exam);
 	}
 
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Exam> findById(@PathVariable("id") Integer id,
-			@PathVariable("healthcareInstitutionId") Integer healthcareInstitutionId) {
+			@RequestParam("healthcareInstitutionId") Integer healthcareInstitutionId) {
 		Exam Exam = examService.findExamById(id, healthcareInstitutionId);
 		return ResponseEntity.ok().body(Exam);
 	}
@@ -59,14 +60,14 @@ public class ExamController {
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Exam> putExame(@PathVariable Integer id, @Valid @RequestBody UpdateExamDto examDto) {
-		Exam exam = examService.updateExam(examService.toExam(examDto), id);
-		return ResponseEntity.ok().body(exam);
+	public ResponseEntity<UpdateExamDto> putExame(@PathVariable Integer id, @Valid @RequestBody UpdateExamDto examDto, @RequestParam("healthcareInstitutionId") Integer healthcareInstitutionId) {
+		examService.updateExam(examDto, id, healthcareInstitutionId);
+		return ResponseEntity.ok().body(examDto);
 	}
 
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Void> deleteExame(@PathVariable Integer id, @Valid @RequestBody Exam exam) {
-		examService.deleteExam(exam, id);
+	public ResponseEntity<Void> deleteExame(@PathVariable Integer id, @Valid @RequestBody ExamDto examDto, @RequestParam("healthcareInstitutionId") Integer healthcareInstitutionId) {
+		examService.deleteExam(examDto, id, healthcareInstitutionId);
 		return ResponseEntity.noContent().build();
 	}
 

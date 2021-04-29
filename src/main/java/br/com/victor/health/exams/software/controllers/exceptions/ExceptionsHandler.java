@@ -49,8 +49,8 @@ public class ExceptionsHandler {
 	@ExceptionHandler(PermissionDeniedException.class)
 	public ResponseEntity<StandardError> permissionDenied(PermissionDeniedException e, HttpServletRequest req) {
 		
-		StandardError error = new StandardError(HttpStatus.FORBIDDEN.value(), e.getMessage(), df.format(new Date()));
-		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+		StandardError error = new StandardError(HttpStatus.UNAUTHORIZED.value(), e.getMessage(), df.format(new Date()));
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
 	}
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)

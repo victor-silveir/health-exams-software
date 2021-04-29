@@ -1,44 +1,55 @@
 package br.com.victor.health.exams.software.dtos;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import br.com.victor.health.exams.software.entities.HealthcareInstitution;
+import br.com.victor.health.exams.software.entities.enums.Gender;
 
 public class UpdateExamDto {
-	
+
 	private Integer id;
-	
+
 	@NotEmpty(message = "Patient Name is required")
 	@Size(min = 3, max = 100, message = "Patient Name must be between 3 and 100 characters.")
-    private String patientName;
+	private String patientName;
 
-	@NotEmpty(message = "Patient Age is required")
-	@Pattern(regexp="^(0|[1-9][0-9]*)$", message="Patient Age must be a number.")
-    private Integer patientAge;
+	@NotNull(message = "Patient Age is required")
+	private Integer patientAge;
 
-	@NotEmpty(message = "Patient Gender is required.")
-    private String patientGender;
+	@NotNull(message = "Patient Gender is required.")
+	private Gender patientGender;
 
 	@NotEmpty(message = "Physician Name is required.")
 	@Size(min = 3, max = 100, message = "Physician Name must be between 3 and 100 characters.")
-    private String physicianName;
+	private String physicianName;
 
 	@NotEmpty(message = "Physician CRM is required.")
-    private String physicianCRM;
+	private String physicianCRM;
 
 	@NotEmpty(message = "Procedure Name is required.")
 	@Size(max = 100, message = "Procedure Name must be at last 100 characters.")
-    private String procedureName;
+	private String procedureName;
 
-	@NotEmpty(message = "Healthcare Institution ID is required.")
-    private HealthcareInstitution healthcareInstitution;
-	
+	public UpdateExamDto() {
+	}
+
+	public UpdateExamDto(Integer id, String patientName, Integer patientAge, Gender gender, String physicianName,
+			String physicianCRM, String procedureName) {
+		this.id = id;
+		this.patientName = patientName;
+		this.patientAge = patientAge;
+		this.patientGender = gender;
+		this.physicianName = physicianName;
+		this.physicianCRM = physicianCRM;
+		this.procedureName = procedureName;
+	}
+
 	public Integer getId() {
 		return id;
 	}
-	
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -59,11 +70,11 @@ public class UpdateExamDto {
 		this.patientAge = patientAge;
 	}
 
-	public String getPatientGender() {
+	public Gender getPatientGender() {
 		return patientGender;
 	}
 
-	public void setPatientGender(String patientGender) {
+	public void setPatientGender(Gender patientGender) {
 		this.patientGender = patientGender;
 	}
 
@@ -90,15 +101,5 @@ public class UpdateExamDto {
 	public void setProcedureName(String procedureName) {
 		this.procedureName = procedureName;
 	}
-
-	public HealthcareInstitution getHealthcareInstitution() {
-		return healthcareInstitution;
-	}
-
-	public void setHealthcareInstitution(HealthcareInstitution healthcareInstitution) {
-		this.healthcareInstitution = healthcareInstitution;
-	}
-	
-	
 
 }

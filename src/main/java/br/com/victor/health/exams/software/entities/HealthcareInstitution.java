@@ -24,6 +24,7 @@ public class HealthcareInstitution implements Serializable{
 	private String cnpj;
 	private int PixeonCoins;
 	
+
 	@OneToMany(mappedBy = "healthcareInstitution", cascade = CascadeType.ALL)
 	private List<Exam> exams;
 

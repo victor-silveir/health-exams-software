@@ -41,13 +41,13 @@ public class ExamService {
 
 	}
 
-	public Exam findExamById(Integer id, Integer institutionId) {
+	public Exam findExamById(Integer id, Integer healthcareInstitutionId) {
 
 		Optional<Exam> optionalExam = examRepository.findById(id);
 
 		Exam exam = optionalExam.orElseThrow(() -> new ObjectNotFoundException("Exam not found! Id: " + id + ", Type: " + Exam.class.getSimpleName()));
 
-		if (!institutionId.equals(exam.getHealthcareInstitution().getId())) {
+		if (!healthcareInstitutionId.equals(exam.getHealthcareInstitution().getId())) {
 			throw new PermissionDeniedException("Permission to access this exam is denied!");
 		}
 
@@ -66,9 +66,9 @@ public class ExamService {
 
 	}
 
-	public Exam saveExam(Exam exam) {
-
-		exam.setId(null);
+	public Exam saveExam(ExamDto examDto) {
+		
+		Exam exam = toExam(examDto);
 		
 		if (examRepository.findByHealthcareInstitutionAndPatientNameAndProcedureNameAndPhysicianName(exam.getHealthcareInstitution(), exam.getPatientName(), exam.getProcedureName(), exam.getPhysicianName()) != null) {
 			throw new ObjectAlreadySavedException("This exam already exists!");
@@ -82,26 +82,40 @@ public class ExamService {
 			throw new NotEnoughtPixeonCoinsException("Not enought Pixeon coins to execute this operation!");
 		}
 
-		exam.setHealthcareInstitution(exam.getHealthcareInstitution());
 		exam.getHealthcareInstitution().chargePixeonCoins(PIXEON_COIN_AMOUNT);
+		
 		healthcareInstitutionRepository.save(exam.getHealthcareInstitution());
 
 		return examRepository.save(exam);
 
 	}
 
-	public Exam updateExam(Exam exam, Integer id) {
+	public Exam updateExam(UpdateExamDto examDto, Integer id, Integer healthcareInstitutionId) {
+
+		Exam exam = toExam(examDto);
 		
 		exam.setId(id);
 
 		exam.setHealthcareInstitution(examRepository.findById(exam.getId()).get().getHealthcareInstitution());
+		
+		if (!healthcareInstitutionId.equals(exam.getHealthcareInstitution().getId())) {
+			throw new PermissionDeniedException("Permission to access this exam is denied!");
+		}
 		
 		findExamById(exam.getId(), exam.getHealthcareInstitution().getId());
 
 		return examRepository.save(exam);
 	}
 
-	public void deleteExam(Exam exam, Integer id) {
+	public void deleteExam(ExamDto examDto, Integer id, Integer healthcareInstitutionId) {
+		
+		examDto.setId(id);
+
+		Exam exam = toExam(examDto);
+		
+		if (!healthcareInstitutionId.equals(exam.getHealthcareInstitution().getId())) {
+			throw new PermissionDeniedException("Permission to access this exam is denied!");
+		}
 		
 		findExamById(id, exam.getHealthcareInstitution().getId());
 		
@@ -110,7 +124,14 @@ public class ExamService {
 	}
 	
 	public Exam toExam(ExamDto examDto) {
-		return modelMapper.map(examDto, Exam.class);
+
+		HealthcareInstitution healthcareInstitution = healthcareInstitutionRepository.findById(examDto.getHealthcareInstitutionId()).get();
+		
+		Exam exam =  modelMapper.map(examDto, Exam.class);
+		
+		exam.setHealthcareInstitution(healthcareInstitution);
+		
+		return exam;
 	}
 	
 	public Exam toExam(UpdateExamDto examDto) {
