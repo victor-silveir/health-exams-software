@@ -82,8 +82,7 @@ public class ExamControllerTest {
 	public void getExamById() throws Exception {
 
 		Exam exam = mockExam(institution);
-		exam.setHealthcareInstitution(institution);
-
+	
 		Exam savedExam = examRepository.save(exam);
 		
 		mockMvc.perform(MockMvcRequestBuilders
@@ -102,11 +101,10 @@ public class ExamControllerTest {
 
 		Exam exam = mockExam(institution);
 		Exam exam2 = new Exam(null, "Hemograma completo", "Maria do Carmo", 16, "José", "123456 DF", false, Gender.FEMALE);
-		Exam exam3 = new Exam(null, "Antitransglutaminase", "Edgard", 26, "Camargo", "12345 DF", false, Gender.MALE);
-		exam.setHealthcareInstitution(institution);
 		exam2.setHealthcareInstitution(institution);
+		Exam exam3 = new Exam(null, "Antitransglutaminase", "Edgard", 26, "Camargo", "12345 DF", false, Gender.MALE);
 		exam3.setHealthcareInstitution(institution);
-
+		
 		examRepository.save(exam);
 		examRepository.save(exam2);
 		examRepository.save(exam3);
@@ -133,7 +131,6 @@ public class ExamControllerTest {
 	public void updateExam() throws Exception {
 
 		Exam exam = mockExam(institution);
-		exam.setHealthcareInstitution(institution);
 		
 		examRepository.save(exam);
 		
@@ -164,12 +161,10 @@ public class ExamControllerTest {
 	public void deleteExam() throws Exception {
 		
 		Exam exam = mockExam(institution);
-		exam.setHealthcareInstitution(institution);
 		
 		examRepository.save(exam);
 		
 		ExamDto examDto = modelMapper.map(exam, ExamDto.class);
-		examDto.setHealthcareInstitution(institution.getId());
 		
 		mockMvc.perform(MockMvcRequestBuilders.delete("/exams/" + examDto.getId() + "?healthcareInstitutionId=" + institution.getId())
 				.content(toJson(examDto))
@@ -188,17 +183,18 @@ public class ExamControllerTest {
 		
 	}
 
-	public ExamDto mockExamDto(int institutionId) {
-
+	public ExamDto mockExamDto(int healthcareInstitutionId) {
+		
 		ExamDto exam = new ExamDto(null, "Victor Bruno", 24, Gender.MALE, "Roberto Carlos", "123456 DF",
-				"Antitransglutaminase", institutionId);
+				"Antitransglutaminase", healthcareInstitutionId);
 
 		return exam;
 	}
 	
-	public Exam mockExam(HealthcareInstitution institution) {
+	public Exam mockExam(HealthcareInstitution healthcareInstitution) {
 
 		Exam exam = new Exam(null, "Hemograma", "Robertina", 58, "Juan Gonzales", "21098 ES", false, Gender.FEMALE);
+		exam.setHealthcareInstitution(healthcareInstitution);
 
 		return exam;
 	}
