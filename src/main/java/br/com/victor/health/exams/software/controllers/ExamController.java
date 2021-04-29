@@ -28,7 +28,7 @@ import br.com.victor.health.exams.software.services.ExamService;
 
 @Validated
 @RestController
-@RequestMapping("/healthcareinstutions")
+@RequestMapping("/exams")
 public class ExamController {
 
 	@Autowired

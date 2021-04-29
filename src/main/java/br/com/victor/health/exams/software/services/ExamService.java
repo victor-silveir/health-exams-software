@@ -13,6 +13,7 @@ import br.com.victor.health.exams.software.dtos.UpdateExamDto;
 import br.com.victor.health.exams.software.entities.Exam;
 import br.com.victor.health.exams.software.entities.HealthcareInstitution;
 import br.com.victor.health.exams.software.repositories.ExamRepository;
+import br.com.victor.health.exams.software.repositories.HealthcareInstitutionRepository;
 import br.com.victor.health.exams.software.services.exceptions.NotEnoughtPixeonCoinsException;
 import br.com.victor.health.exams.software.services.exceptions.ObjectAlreadySavedException;
 import br.com.victor.health.exams.software.services.exceptions.ObjectNotFoundException;
@@ -25,7 +26,7 @@ public class ExamService {
 	private ExamRepository examRepository;
 
 	@Autowired
-	private HealthcareInstitutionService healthcareInstitutionService;
+	private HealthcareInstitutionRepository healthcareInstitutionRepository;
 
 	@Autowired
 	private ModelMapper modelMapper;
@@ -34,7 +35,7 @@ public class ExamService {
 	
 	public List<Exam> findAllExamsByInstitution(HealthcareInstitution healthcareInstitution) {
 
-		healthcareInstitutionService.findInstitutionById(healthcareInstitution.getId());
+		healthcareInstitutionRepository.findById(healthcareInstitution.getId());
 
 		return examRepository.findByHealthcareInstitution(healthcareInstitution);
 
@@ -58,7 +59,7 @@ public class ExamService {
 			exam.getHealthcareInstitution().chargePixeonCoins(PIXEON_COIN_AMOUNT);
 			exam.setRequested(true);
 			examRepository.save(exam);
-			healthcareInstitutionService.saveInstitution(exam.getHealthcareInstitution());
+			healthcareInstitutionRepository.save(exam.getHealthcareInstitution());
 		}
 
 		return exam;
@@ -73,7 +74,7 @@ public class ExamService {
 			throw new ObjectAlreadySavedException("This exam already exists!");
 		}
 
-		if (healthcareInstitutionService.findInstitutionById(exam.getHealthcareInstitution().getId()) == null) {
+		if (healthcareInstitutionRepository.findById(exam.getHealthcareInstitution().getId()) == null) {
 			throw  new ObjectNotFoundException("Healthcare Institution not found! Id: " + exam.getHealthcareInstitution().getId() + ", Type: " + HealthcareInstitution.class.getSimpleName());
 		}
 
@@ -83,7 +84,7 @@ public class ExamService {
 
 		exam.setHealthcareInstitution(exam.getHealthcareInstitution());
 		exam.getHealthcareInstitution().chargePixeonCoins(PIXEON_COIN_AMOUNT);
-		healthcareInstitutionService.saveInstitution(exam.getHealthcareInstitution());
+		healthcareInstitutionRepository.save(exam.getHealthcareInstitution());
 
 		return examRepository.save(exam);
 
@@ -93,7 +94,9 @@ public class ExamService {
 		
 		exam.setId(id);
 
-		findExamById(id, exam.getHealthcareInstitution().getId());
+		exam.setHealthcareInstitution(examRepository.findById(exam.getId()).get().getHealthcareInstitution());
+		
+		findExamById(exam.getId(), exam.getHealthcareInstitution().getId());
 
 		return examRepository.save(exam);
 	}

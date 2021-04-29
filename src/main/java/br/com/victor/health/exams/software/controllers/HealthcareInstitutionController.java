@@ -20,7 +20,7 @@ import br.com.victor.health.exams.software.services.HealthcareInstitutionService
 
 @Validated
 @RestController
-@RequestMapping("/healthcareinstutions")
+@RequestMapping("/healthcareinstitutions")
 public class HealthcareInstitutionController {
 	@Autowired
 	private HealthcareInstitutionService healthcareInstitutionService;

@@ -1,7 +1,7 @@
 package br.com.victor.health.exams.software.dtos;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import br.com.victor.health.exams.software.entities.HealthcareInstitution;
@@ -14,8 +14,7 @@ public class ExamDto {
 	@Size(min = 3, max = 100, message = "Patient Name must be between 3 and 100 characters.")
     private String patientName;
 
-	@NotEmpty(message = "Patient Age is required")
-	@Pattern(regexp="^(0|[1-9][0-9]*)$", message="Patient Age must be a number.")
+	@NotNull(message = "Patient Age is required")
     private Integer patientAge;
 
 	@NotEmpty(message = "Patient Gender is required.")
@@ -32,7 +31,7 @@ public class ExamDto {
 	@Size(max = 100, message = "Procedure Name must be at last 100 characters.")
     private String procedureName;
 
-	@NotEmpty(message = "Healthcare Institution ID is required.")
+	@NotNull(message = "Healthcare Institution ID is required.")
     private HealthcareInstitution healthcareInstitution;
 	
 	public Integer getId() {
