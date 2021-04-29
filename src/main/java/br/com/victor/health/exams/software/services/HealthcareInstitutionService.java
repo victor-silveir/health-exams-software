@@ -1,5 +1,6 @@
 package br.com.victor.health.exams.software.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,10 @@ public class HealthcareInstitutionService {
 		Optional<HealthcareInstitution> optionalInstitution = healthcareInstitutionRepository.findById(id);
 		
 		return optionalInstitution.orElseThrow(() -> new ObjectNotFoundException("Healthcare Institution not found! Id: " + id + ", Type: " + HealthcareInstitution.class.getSimpleName()));
+	}
+	
+	public List<HealthcareInstitution> findAllInstitutions() {
+		return healthcareInstitutionRepository.findAll();
 	}
 	
 	public HealthcareInstitution saveInstitution(HealthcareInstitution healthcareInstitution) {
