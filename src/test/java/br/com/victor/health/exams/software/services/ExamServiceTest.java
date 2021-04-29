@@ -31,10 +31,7 @@ public class ExamServiceTest {
 	
 	@Autowired
 	private HealthcareInstitutionRepository healthcareInstitutionRepository;
-	
-	@Autowired
-	private ExamRepository examRepository;
-	
+		
 	private HealthcareInstitution institution = new HealthcareInstitution(null, "Hemocentro de brasília", "29003675000176");
 	
 	private HealthcareInstitution noCoinsInstitution = new HealthcareInstitution(null, "Laboratório Maria do Socorro", "80575258000155");
@@ -135,7 +132,7 @@ public class ExamServiceTest {
 		assertNotSame(examData, updatedExam, "The objects are the same!");
 	}
 	
-	@Test
+	@Test(expected = ObjectNotFoundException.class)
 	public void deleteExam() {
 		
 		Exam exam = mockExam(1);
@@ -146,7 +143,8 @@ public class ExamServiceTest {
 			
 		examService.deleteExam(exam, exam.getId());
 		
-		assertNull(exam);
+		examService.findExamById(exam.getId(), exam.getHealthcareInstitution().getId());
+		
 				
 	}
 	
