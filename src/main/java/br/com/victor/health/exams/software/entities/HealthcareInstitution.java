@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
 
+import org.hibernate.validator.constraints.br.CNPJ;
+
 @Entity
 public class HealthcareInstitution implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -18,9 +20,12 @@ public class HealthcareInstitution implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
 	@NotEmpty(message = "Institution Name is required.")
 	private String name;
+	
 	@NotEmpty(message = "Institution CNPJ is required.")
+	@CNPJ
 	private String cnpj;
 	private int PixeonCoins;
 	

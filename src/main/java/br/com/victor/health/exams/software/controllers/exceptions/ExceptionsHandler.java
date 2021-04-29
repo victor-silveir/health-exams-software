@@ -59,7 +59,7 @@ public class ExceptionsHandler {
 		ValidationError erro = new ValidationError(HttpStatus.BAD_REQUEST.value(), "Erro de Validação", df.format(new Date()));
 		
 		for (FieldError error : e.getBindingResult().getFieldErrors()) {
-			erro.addError(error.getField(), error.getDefaultMessage());
+			erro.addError(error.getDefaultMessage());
 		}
 			
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);

@@ -3,8 +3,7 @@ package br.com.victor.health.exams.software.controllers;
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-import java.io.UnsupportedEncodingException;
-
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,7 +20,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 
-import antlr.collections.List;
 import br.com.victor.health.exams.software.dtos.ExamDto;
 import br.com.victor.health.exams.software.dtos.UpdateExamDto;
 import br.com.victor.health.exams.software.entities.Exam;
@@ -29,7 +27,6 @@ import br.com.victor.health.exams.software.entities.HealthcareInstitution;
 import br.com.victor.health.exams.software.entities.enums.Gender;
 import br.com.victor.health.exams.software.repositories.ExamRepository;
 import br.com.victor.health.exams.software.repositories.HealthcareInstitutionRepository;
-import br.com.victor.health.exams.software.services.ExamService;
 import br.com.victor.health.exams.software.services.exceptions.JsonParserError;
 
 @SpringBootTest
@@ -312,6 +309,27 @@ public class ExamControllerTest {
 				.andExpect(MockMvcResultMatchers.jsonPath("$.msg", is("This exam already exists!"))).andReturn().getResponse()
 				.getContentAsString();
 		
+	}
+	
+	@Test
+	public void validationForNullFields() throws Exception {
+		
+		mockMvc.perform(MockMvcRequestBuilders.post("/exams").content(toJson(new Object()))
+				.accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().isBadRequest())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.errors").isNotEmpty())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.msg", is("Erro de Validação")))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.errors", Matchers.containsInAnyOrder(
+						"Patient Gender is required.",
+						"Patient Age is required",
+						"Physician Name is required.",
+						"Physician CRM is required.",
+						"Healthcare Institution ID is required.",
+						"Procedure Name is required.",
+						"Patient Name is required"
+						)))
+				.andReturn().getResponse()
+				.getContentAsString();
 	}
 
 	public ExamDto mockExamDto(int healthcareInstitutionId) {
