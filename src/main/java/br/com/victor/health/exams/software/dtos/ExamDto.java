@@ -110,7 +110,7 @@ public class ExamDto {
 		return healthcareInstitutionId;
 	}
 
-	public void setHealthcareInstitution(Integer healthcareInstitutionId) {
+	public void setHealthcareInstitutionId(Integer healthcareInstitutionId) {
 		this.healthcareInstitutionId = healthcareInstitutionId;
 	}
 

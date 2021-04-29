@@ -68,15 +68,16 @@ public class ExamService {
 
 	public Exam saveExam(ExamDto examDto) {
 		
+		if (healthcareInstitutionRepository.findById(examDto.getHealthcareInstitutionId()) == null || healthcareInstitutionRepository.findById(examDto.getHealthcareInstitutionId()).isEmpty()) {
+			throw  new ObjectNotFoundException("Healthcare Institution not found! Id: " + examDto.getHealthcareInstitutionId() + ", Type: " + HealthcareInstitution.class.getSimpleName());
+		}
+		
 		Exam exam = toExam(examDto);
 		
 		if (examRepository.findByHealthcareInstitutionAndPatientNameAndProcedureNameAndPhysicianName(exam.getHealthcareInstitution(), exam.getPatientName(), exam.getProcedureName(), exam.getPhysicianName()) != null) {
 			throw new ObjectAlreadySavedException("This exam already exists!");
 		}
 
-		if (healthcareInstitutionRepository.findById(exam.getHealthcareInstitution().getId()) == null) {
-			throw  new ObjectNotFoundException("Healthcare Institution not found! Id: " + exam.getHealthcareInstitution().getId() + ", Type: " + HealthcareInstitution.class.getSimpleName());
-		}
 
 		if (exam.getHealthcareInstitution().checkPixeonBalance(PIXEON_COIN_AMOUNT)) {
 			throw new NotEnoughtPixeonCoinsException("Not enought Pixeon coins to execute this operation!");
