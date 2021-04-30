@@ -25,7 +25,7 @@ public class HealthcareInstitution implements Serializable{
 	private String name;
 	
 	@NotEmpty(message = "Institution CNPJ is required.")
-	@CNPJ
+	@CNPJ(message = "Invalid CNPJ!")
 	private String cnpj;
 	private int PixeonCoins;
 	

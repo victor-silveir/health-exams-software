@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import org.hamcrest.Matchers;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -61,6 +62,13 @@ public class ExamControllerTest {
 
 		healthcareInstitutionRepository.save(noCoinsInstitution);
 
+	}
+	
+	@After
+	public void end() {
+		
+		examRepository.deleteAll();
+		healthcareInstitutionRepository.deleteAll();
 	}
 
 	@Test
