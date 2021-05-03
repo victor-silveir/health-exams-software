@@ -37,7 +37,7 @@ public class HealthcareInstitutionServiceTest {
 	public void findHealthcareInstitutionById() {
 
 		HealthcareInstitution healthcareInstitution = new HealthcareInstitution(null, "Centro de coleta de sangue",
-				"28839863000175");
+				"29328525000132");
 
 		HealthcareInstitution savedInstitution = healthcareInstitutionService.saveInstitution(healthcareInstitution);
 
@@ -52,7 +52,7 @@ public class HealthcareInstitutionServiceTest {
 	public void healthCareInstitutionNotFound() {
 
 		HealthcareInstitution healthcareInstitution = new HealthcareInstitution(null, "Centro de coleta de sangue",
-				"28839863000174");
+				"30120971000136");
 
 		HealthcareInstitution savedInstitution = healthcareInstitutionService.saveInstitution(healthcareInstitution);
 
@@ -69,7 +69,7 @@ public class HealthcareInstitutionServiceTest {
 	public void healthcareInstitutionAlreadySaved() {
 
 		HealthcareInstitution healthcareInstitution = new HealthcareInstitution(null, "Centro de coleta de sangue",
-				"28839863000173");
+				"70493332000130");
 
 		healthcareInstitutionService.saveInstitution(healthcareInstitution);
 		healthcareInstitutionService.saveInstitution(healthcareInstitution);
