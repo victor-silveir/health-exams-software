@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -24,13 +23,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.victor.health.exams.software.dtos.ExamDto;
 import br.com.victor.health.exams.software.dtos.GetExamDto;
 import br.com.victor.health.exams.software.dtos.UpdateExamDto;
 import br.com.victor.health.exams.software.entities.Exam;
-import br.com.victor.health.exams.software.entities.HealthcareInstitution;
 import br.com.victor.health.exams.software.services.ExamService;
 
 @Validated

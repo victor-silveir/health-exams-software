@@ -115,7 +115,7 @@ public class ExamControllerTest {
 		examRepository.save(exam2);
 		examRepository.save(exam3);
 
-		mockMvc.perform(MockMvcRequestBuilders.get("/exams").content(toJson(institution))
+		mockMvc.perform(MockMvcRequestBuilders.get("/exams/institutionid/" + institution.getId()).content(toJson(institution))
 				.accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON)).andDo(print())
 				.andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.jsonPath("$").isArray())

@@ -187,8 +187,6 @@ public class ExamServiceTest {
 
 		Exam savedExam = examService.saveExam(exam);
 
-		assertEquals(1, institution.getId());
-
 		examService.findExamById(savedExam.getId(), 2);
 	}
 
@@ -210,8 +208,7 @@ public class ExamServiceTest {
 				
 		examService.saveExam(exam);
 				
-		examService.findExamById(3, exam.getHealthcareInstitutionId());
-		
+ 		examService.findExamById(90, institution.getId());
 	}
 	
 	
