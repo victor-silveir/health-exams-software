@@ -42,10 +42,10 @@ Após baixar o projeto, abra o terminal de comando na raíz do projeto e execute
 mvn clean package
 ```
 
-Este comando irá gerar um arquivo .jar compilado que pode ser executado com o seguinte comando: 
+Este comando irá gerar um arquivo .jar compilado na pasta targetque pode ser executado com o seguinte comando: 
 
 ```sh
-java -jar health-exams-software-backend
+java -jar health-software-1.jar
 ```
 
 Também é possível subir a aplicação para um container via Docker, para isso utilizar o comando:

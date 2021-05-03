@@ -10,8 +10,8 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.crudexample</groupId>
-	<artifactId>health.exams.software</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>health-software</artifactId>
+	<version>1</version>
 	<name>health-exams-software-backend</name>
 	<description>An application to save, delete, read and update exams and health institutions!</description>
 	<properties>
