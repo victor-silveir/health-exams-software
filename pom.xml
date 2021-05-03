@@ -13,7 +13,7 @@
 	<artifactId>health.exams.software</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>health-exams-software-backend</name>
-	<description>A simple Crud</description>
+	<description>An application to save, delete, read and update exams and health institutions!</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
