@@ -9,7 +9,7 @@ import br.com.victor.health.exams.software.entities.HealthcareInstitution;
 
 public interface ExamRepository extends JpaRepository<Exam, Integer>{
 
-	public List<Exam> findByHealthcareInstitution(HealthcareInstitution healthcareInstitution);
+	public List<Exam> findByHealthcareInstitutionId(Integer healthcareInstitutionId);
 	
 	public Exam findByHealthcareInstitutionAndPatientNameAndProcedureNameAndPhysicianName(HealthcareInstitution healthcareInstitution, String patientName, String procedureName, String physicianName);
 }

@@ -6,9 +6,11 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +22,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import br.com.victor.health.exams.software.dtos.ExamDto;
 import br.com.victor.health.exams.software.dtos.GetExamDto;
 import br.com.victor.health.exams.software.dtos.UpdateExamDto;
@@ -30,6 +36,7 @@ import br.com.victor.health.exams.software.services.ExamService;
 @Validated
 @RestController
 @RequestMapping("/exams")
+@CrossOrigin(origins = "*")
 public class ExamController {
 
 	@Autowired
@@ -52,8 +59,8 @@ public class ExamController {
 		return ResponseEntity.ok().body(Exam);
 	}
 
-	@GetMapping
-	public ResponseEntity<List<GetExamDto>> findAll(@Valid @RequestBody HealthcareInstitution healthcareInstitution) {
+	@GetMapping(value = "/institutionid/{healthcareinstitution}")
+	public ResponseEntity<List<GetExamDto>> findAll(@Valid @PathVariable("healthcareinstitution") Integer healthcareInstitution) throws JsonMappingException, JsonProcessingException {
 		List<GetExamDto> exams = examService.findAllExamsByInstitution(healthcareInstitution).stream()
 				.map(examService::toExamDto).collect(Collectors.toList());
 		return ResponseEntity.ok().body(exams);

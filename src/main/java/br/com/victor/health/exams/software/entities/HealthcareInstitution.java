@@ -74,7 +74,11 @@ public class HealthcareInstitution implements Serializable{
 	public int getPixeonCoins() {
 		return PixeonCoins;
 	}
-
+	
+	public void setPixeonCoins(int pixeonCoins) {
+		PixeonCoins = pixeonCoins;
+	}
+	
 	public void chargePixeonCoins(int pixeonCoins) {
 		PixeonCoins = PixeonCoins - pixeonCoins;
 	}

@@ -33,11 +33,11 @@ public class ExamService {
 	
 	private final int PIXEON_COIN_AMOUNT = 1;
 	
-	public List<Exam> findAllExamsByInstitution(HealthcareInstitution healthcareInstitution) {
+	public List<Exam> findAllExamsByInstitution(Integer healthcareInstitutionId) {
 
-		healthcareInstitutionRepository.findById(healthcareInstitution.getId());
+		healthcareInstitutionRepository.findById(healthcareInstitutionId);
 
-		return examRepository.findByHealthcareInstitution(healthcareInstitution);
+		return examRepository.findByHealthcareInstitutionId(healthcareInstitutionId);
 
 	}
 
